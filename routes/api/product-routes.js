@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
+const { sequelize } = require('../../models/Product');
 
 // The `/api/products` endpoint
 
@@ -7,6 +8,23 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 router.get('/', (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
+  try {
+    const productData = await Product.findAll({
+      include: [{ model: Category }, {model: Tag}],
+      attributes: { 
+        include: [
+          [
+            // FIGURE OUT PROPER SQL COMMAND TO RUN FOR THIS ROUTE
+            sequelize.literal(
+              '(SELECT * FROM product WHERE product.category_id = category_id AND ...........')
+          ]
+        ]
+      }
+    });
+    res.status(200).json(categoryData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // get one product
