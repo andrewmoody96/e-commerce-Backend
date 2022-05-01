@@ -80,7 +80,7 @@ router.delete('/:id', async (req, res) => {
       },
     });
     if (!tagData) {
-      res.status(404).json({ message: 'No tage found matching that ID.' });
+      res.status(404).json({ message: 'No tag found matching that ID.' });
     }
   } catch (err) {
     res.status(500).json(err);
